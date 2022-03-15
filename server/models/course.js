@@ -6,13 +6,13 @@ const EntrySchema = new Schema({
   project: Number,
   homework: Number,
   study: Number,
-  student: { type: Schema.Types.ObjectId, ref: "User" },
+  student: { type: Schema.Types.ObjectId, ref: "users" },
 });
 
 const CourseSchema = new Schema({
   name: String,
   totalLesson: Number,
-  faculty: { type: Schema.Types.ObjectId, ref: "User" },
+  faculty: { type: Schema.Types.ObjectId, ref: "users" },
   entry: [EntrySchema],
 });
 
