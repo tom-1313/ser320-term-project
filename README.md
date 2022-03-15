@@ -24,6 +24,8 @@ This is an important step and must be completed before you start working on the 
 
 ### Installing the Server Packages
 
+**Note:** You will need to contact me to gain access to the server. I will send you the .env file and add your IP address to the MongoDB server.
+
 1. Inside of the project root directory, navigate into the server folder with the terminal.
 2. Once insde the server folder, install all the node packages by running the command: ```npm i```
 3. Once all the packages have installed you are now ready to program.
