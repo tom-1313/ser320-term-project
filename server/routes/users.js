@@ -7,6 +7,8 @@ const UserCourse = require("../models/userCourse");
 //Authenticates the login information
 userRouter.post("login", async (req, res) => {
   //TODO: Implement after user authenitatication lesson
+
+  
 });
 
 //Logs the user out of the application
@@ -59,16 +61,29 @@ userRouter.post("/course", async (req, res) => {
 userRouter
   .route("/course/:courseId")
 
+  //Get a course with the given courseId
   .get(async (req, res) => {
-    //TODO: Get a course with the given courseId from the courses collection. This is for REQ-7
+    await Course.findById(req.params.courseId)
+      .then(result => res.status(200).send(result))
+      .catch(err => res.status(500).send(err));
   })
 
+  //Update a course's information
   .put(async (req, res) => {
-    //TODO: Update information of a course in the courses collection. See REQ-5
+    const filter = req.params.courseId;
+    const update = req.body;
+    await Course.findByIdAndUpdate(filter, update, { new: true })
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => res.status(500).send(err));
   })
 
+  //Delete the course with the given courseId from the courses collection
   .delete(async (req, res) => {
-    //TODO: Delete a course from the courses collection. See REQ-10
+    await Course.findByIdAndRemove(req.params.courseId)
+      .then(result => res.status(200).send(result + "Course with id " + req.params.courseId + " successfully deleted."))
+      .catch(err => res.status(500).send(err));
   });
 
 //Adds an entry to a course under the courses collection
