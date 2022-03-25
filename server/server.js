@@ -10,7 +10,6 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@cluster0.ptofl.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`;
-//const uri = `mongodb+srv://ser320:123qwe@cluster0.ptofl.mongodb.net/minutesDB?retryWrites=true&w=majority`;
 
 mongoose
   .connect(uri, { useNewUrlParser: true })
