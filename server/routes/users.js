@@ -3,6 +3,8 @@ const userRouter = express.Router();
 const User = require("../models/user");
 const Course = require("../models/course");
 const UserCourse = require("../models/userCourse");
+//const course = require("../models/course");
+const bodyParser = require('body-parser');
 
 //Authenticates the login information
 userRouter.post("login", async (req, res) => {
@@ -61,14 +63,28 @@ userRouter
 
   .get(async (req, res) => {
     //TODO: Get a course with the given courseId from the courses collection. This is for REQ-7
+    await Course.findById(req.params.courseId)
+    .then(result => res.status(200).send(result))
+    .catch(err => res.status(500).send(err));
   })
 
   .put(async (req, res) => {
     //TODO: Update information of a course in the courses collection. See REQ-5
+
+    const filter = req.params.courseId;
+    const update = req.body;
+    await Course.findByIdAndUpdate(filter, update, { new: true })
+      .then((result) => {
+        res.status(200).send(result);
+      })
+      .catch((err) => res.status(500).send(err));
   })
 
   .delete(async (req, res) => {
     //TODO: Delete a course from the courses collection. See REQ-10
+    await Course.findByIdAndRemove(req.params.courseId)
+      .then(result => res.status(200).send(result + "Course with id " + req.params.courseId + " successfully deleted."))
+      .catch(err => res.status(500).send(err));
   });
 
 //Adds an entry to a course under the courses collection
