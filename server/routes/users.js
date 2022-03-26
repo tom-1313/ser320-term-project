@@ -3,6 +3,8 @@ const userRouter = express.Router();
 const User = require("../models/user");
 const Course = require("../models/course");
 const UserCourse = require("../models/userCourse");
+//const course = require("../models/course");
+const bodyParser = require('body-parser');
 
 //Authenticates the login information
 userRouter.post("/login", async (req, res) => {
@@ -72,6 +74,7 @@ userRouter
 
   //Get a course with the given courseId
   .get(async (req, res) => {
+
     await Course.findById(req.params.courseId)
       .then((result) => res.status(200).send(result))
       .catch((err) => res.status(500).send(err));
