@@ -5,14 +5,23 @@ const Course = require("../models/course");
 const UserCourse = require("../models/userCourse");
 
 //Authenticates the login information
-userRouter.post("login", async (req, res) => {
+userRouter.post("/login", async (req, res) => {
   //TODO: Implement after user authenitatication lesson
-
-  
+  console.log(req.body);
+  await User.findOne({ email: req.body.email })
+    .then((user) => {
+      if (user.password === req.body.password) {
+        res.send("Success");
+      }
+      res.send("Invalid user/pass");
+    })
+    .catch((err) => {
+      res.send(err);
+    });
 });
 
 //Logs the user out of the application
-userRouter.post("logout", async (req, res) => {
+userRouter.post("/logout", async (req, res) => {
   //TODO: Implement after user authenitatication lesson
 });
 
@@ -64,8 +73,8 @@ userRouter
   //Get a course with the given courseId
   .get(async (req, res) => {
     await Course.findById(req.params.courseId)
-      .then(result => res.status(200).send(result))
-      .catch(err => res.status(500).send(err));
+      .then((result) => res.status(200).send(result))
+      .catch((err) => res.status(500).send(err));
   })
 
   //Update a course's information
@@ -82,8 +91,17 @@ userRouter
   //Delete the course with the given courseId from the courses collection
   .delete(async (req, res) => {
     await Course.findByIdAndRemove(req.params.courseId)
-      .then(result => res.status(200).send(result + "Course with id " + req.params.courseId + " successfully deleted."))
-      .catch(err => res.status(500).send(err));
+      .then((result) =>
+        res
+          .status(200)
+          .send(
+            result +
+              "Course with id " +
+              req.params.courseId +
+              " successfully deleted."
+          )
+      )
+      .catch((err) => res.status(500).send(err));
   });
 
 //Adds an entry to a course under the courses collection
