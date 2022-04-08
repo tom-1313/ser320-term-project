@@ -4,7 +4,7 @@ const User = require("../models/user");
 const Course = require("../models/course");
 const UserCourse = require("../models/userCourse");
 //const course = require("../models/course");
-const bodyParser = require('body-parser');
+const bodyParser = require("body-parser");
 
 //Authenticates the login information
 userRouter.post("/login", async (req, res) => {
@@ -36,7 +36,7 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 //Enrolls a user in a course and saves it to the UserCourse collection
-userRouter.post("/enroll/:userId/:courseId", async (req, res) => {
+userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
   await UserCourse.create({
     user: req.params.userId,
     course: req.params.courseId,
@@ -50,7 +50,7 @@ userRouter.post("/enroll/:userId/:courseId", async (req, res) => {
 });
 
 //Gets all the course names the given user is enrolled in from the UserCourse collection
-userRouter.get("/enrolled/:userId", async (req, res) => {
+userRouter.get("/:userId/enrolled/", async (req, res) => {
   await UserCourse.find({ user: req.params.userId }, { course: 1, _id: 0 })
     .then((courses) => {
       const courseIds = [];
@@ -62,19 +62,28 @@ userRouter.get("/enrolled/:userId", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
-//Creates a course
-userRouter.post("/course", async (req, res) => {
-  await Course.create(req.body)
-    .then((course) => res.send(course))
-    .catch((err) => res.send(err));
-});
+userRouter
+  .route("/course")
+
+  //Creates a course
+  .post(async (req, res) => {
+    await Course.create(req.body)
+      .then((course) => res.send(course))
+      .catch((err) => res.send(err));
+  })
+
+  //Gets all courses in the database
+  .get(async (req, res) => {
+    await Course.find({}, { name: 1 })
+      .then((courses) => res.send(courses))
+      .catch((err) => res.send(err));
+  });
 
 userRouter
   .route("/course/:courseId")
 
   //Get a course with the given courseId
   .get(async (req, res) => {
-
     await Course.findById(req.params.courseId)
       .then((result) => res.status(200).send(result))
       .catch((err) => res.status(500).send(err));
@@ -108,14 +117,26 @@ userRouter
   });
 
 //Adds an entry to a course under the courses collection
-userRouter.post("/course/:courseId/entry", async (req, res) => {
-  await Course.findById(req.params.courseId)
-    .then((course) => {
-      course.entry.push(req.body);
-      course.save();
-      res.send(course);
-    })
-    .catch((err) => res.send(err));
-});
+//TODO: add get route to get all entries in a course
+userRouter
+  .route("/course/:courseId/entry")
+
+  .post(async (req, res) => {
+    await Course.findById(req.params.courseId)
+      .then((course) => {
+        course.entry.push(req.body);
+        course.save();
+        res.send(course);
+      })
+      .catch((err) => res.send(err));
+  })
+
+  .get(async (req, res) => {
+    await Course.findById(req.params.courseId)
+      .then((course) => {
+        res.send(course.entry);
+      })
+      .catch((err) => res.send(err));
+  });
 
 module.exports = userRouter;
