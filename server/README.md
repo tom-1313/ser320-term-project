@@ -2,7 +2,7 @@
 The server runs on http://localhost:8080
 
 ## Database Schema
-![](images/schema.png)
+![](images/database-schema.png)
 
 ## Routes
 ![](images/routes.png)
