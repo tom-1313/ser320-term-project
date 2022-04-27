@@ -3,19 +3,20 @@ const userRouter = express.Router();
 const User = require("../models/user");
 const Course = require("../models/course");
 const UserCourse = require("../models/userCourse");
-//const course = require("../models/course");
-const bodyParser = require("body-parser");
+const passport = require("passport");
+const Verify = require("./verify");
 
 //Authenticates the login information
-userRouter.post("/login", async (req, res) => {
-  //TODO: Implement after user authenitatication lesson
-  console.log(req.body);
+userRouter.post("/login", passport.authenticate("local"), async (req, res) => {
   await User.findOne({ email: req.body.email })
     .then((user) => {
-      if (user.password === req.body.password) {
-        res.send("Success");
-      }
-      res.send("Invalid user/pass");
+      const token = Verify.getToken(user);
+
+      return res
+        .status(200)
+        .header("x-access-token", token)
+        .header("access-control-expose-headers", "x-access-token")
+        .json({ message: "Account Created" });
     })
     .catch((err) => {
       res.send(err);
@@ -24,18 +25,32 @@ userRouter.post("/login", async (req, res) => {
 
 //Logs the user out of the application
 userRouter.post("/logout", async (req, res) => {
-  //TODO: Implement after user authenitatication lesson
+  req.logout();
+  res.send({ message: "Successfully logged out" });
 });
 
 //Creates a student user account
-//TODO: Hash password after learning to encrypt data
 userRouter.post("/signup", async (req, res) => {
-  await User.create(req.body)
-    .then((user) => res.send(user))
+  await User.register(
+    new User({ email: req.body.email, isFaculty: req.body.isFaculty }),
+    req.body.password
+  )
+    .then((user) => {
+      passport.authenticate("local")(req, res, () => {
+        const token = Verify.getToken(user);
+
+        return res
+          .status(200)
+          .header("x-access-token", token)
+          .header("access-control-expose-headers", "x-access-token")
+          .json({ message: "Account Created" });
+      });
+    })
     .catch((err) => res.send(err));
 });
 
 //Enrolls a user in a course and saves it to the UserCourse collection
+//TODO: add authentication
 userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
   await UserCourse.create({
     user: req.params.userId,
@@ -50,6 +65,7 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
 });
 
 //Gets all the course names the given user is enrolled in from the UserCourse collection
+//TODO: add authentication
 userRouter.get("/:userId/enrolled", async (req, res) => {
   await UserCourse.find({ user: req.params.userId }, { course: 1, _id: 0 })
     .then((courses) => {
@@ -62,6 +78,7 @@ userRouter.get("/:userId/enrolled", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
+//TODO: add authentication
 userRouter
   .route("/course")
 
@@ -79,6 +96,7 @@ userRouter
       .catch((err) => res.send(err));
   });
 
+//TODO: add authentication
 userRouter
   .route("/course/:courseId")
 
@@ -117,6 +135,7 @@ userRouter
   });
 
 //Adds an entry to a course under the courses collection
+//TODO: add authentication
 userRouter
   .route("/course/:courseId/entry")
 
