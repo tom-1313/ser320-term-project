@@ -50,7 +50,7 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
 });
 
 //Gets all the course names the given user is enrolled in from the UserCourse collection
-userRouter.get("/:userId/enrolled/", async (req, res) => {
+userRouter.get("/:userId/enrolled", async (req, res) => {
   await UserCourse.find({ user: req.params.userId }, { course: 1, _id: 0 })
     .then((courses) => {
       const courseIds = [];
@@ -117,7 +117,6 @@ userRouter
   });
 
 //Adds an entry to a course under the courses collection
-//TODO: add get route to get all entries in a course
 userRouter
   .route("/course/:courseId/entry")
 
