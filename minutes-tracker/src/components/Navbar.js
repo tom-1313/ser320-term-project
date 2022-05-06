@@ -5,7 +5,7 @@ function Navbar() {
 
   return (
     <div>
-      <nav className="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-light bg-light">
         <img
           src={
             "https://www.qu.edu/49f5e9/globalassets/global/media/qu/logos/0_home/header-logo.png"

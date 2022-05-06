@@ -15,7 +15,6 @@ function TableBody(props) {
 
     setTable(createTable(course));
     setDisplayTable(true);
-    //filter the lessons
   }, []);
 
   const createTable = (course) => {
@@ -31,7 +30,7 @@ function TableBody(props) {
         if (entry === undefined) {
           tds.push(<td key={i + " " + j}>{"N/A"}</td>);
         } else {
-          tds.push(<TableData key={i + " " + j} entry={entry} />);
+          tds.push(<TableData key={i + " " + j} entry={entry} openModal={props.openModal} />);
         }
       }
       tableData.push(<tr key={"tr" + i}>{tds}</tr>);
