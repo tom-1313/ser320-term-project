@@ -64,6 +64,12 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
     });
 });
 
+userRouter.get("/enrolled/:courseId", async (req, res) => {
+  await UserCourse.find({ course: req.params.courseId })
+    .then((enrolled) => res.send(enrolled))
+    .catch((err) => res.send(err));
+});
+
 //Gets all the course names the given user is enrolled in from the UserCourse collection
 //TODO: add authentication
 userRouter.get("/:userId/enrolled", async (req, res) => {

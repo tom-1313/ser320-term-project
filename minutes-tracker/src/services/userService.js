@@ -1,7 +1,7 @@
 import http from "./httpService";
 //import the route
+const apiUrl = "http://localhost:8080/"
 const apiEndpoint = apiUrl + "user";
-
 /**
  * Posts the login data
  *
@@ -50,6 +50,17 @@ export function enroll(userId, courseId) {
  */
 export function getEnrolled(userId) {
   return http.get(`${apiEndpoint}/${userId}/enrolled`);
+}
+
+
+/**
+ * Gets all the students enrolled in a course
+ *
+ * @param {String} courseId The _id of the course
+ * @return {Object} A list of students enrolled in a given course
+ */
+export function getTotalEnrolled(courseId) {
+  return http.get(`${apiEndpoint}/enrolled/${courseId}`);
 }
 
 /**
@@ -119,6 +130,6 @@ export function createEntry(courseId, data) {
  * @param {courseId} The _id of the course
  * @return {Object} The entries for a course
  */
-export function deleteCourse(courseId) {
+export function getEntry(courseId) {
   return http.get(`${apiEndpoint}/course/${courseId}/entry`);
 }
