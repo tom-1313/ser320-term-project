@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
@@ -20,12 +21,13 @@ const customStyles = {
 };
 
 function PreviewData(props) {
+  const { state: courseInfo } = useLocation();
   const [entries, setEntries] = useState();
   const [lessons, setLessons] = useState();
   const [display, setDisplay] = useState(false);
   const [students, setStudents] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [course, setCourse] = useState(props.course);
+  const [course, setCourse] = useState(courseInfo);
   const [entry, setEntry] = useState({
     study: 0,
     project: 0,
@@ -34,8 +36,9 @@ function PreviewData(props) {
   const [tableData, setTableData] = useState("test");
 
   useEffect(() => {
+    console.log(courseInfo)
     //Query for course
-    getCourse("62703e15b8c8a5679410e129")
+    getCourse(course._id)
       .then((res) => {
         setEntries(res.data.entry);
         setLessons(res.data.totalLesson);
@@ -69,19 +72,18 @@ function PreviewData(props) {
     XLSX.writeFile(workbook, `${course}-data.xlsx`);
   }
 
-  //TODO: Change the h1 to the course name
   return (
     <div>
       <Navbar />
       <div className="container text-center">
-        <h1>{course}</h1>
+        <h1>{course.name}</h1>
         <h6>
           Below is each student entry in minutes. The first row is the lesson
           number.
         </h6>
         {display && (
-          <table className="table text-center" id="course-table">
-            <TableHeader lessons={15} />
+          <table className="table table-layout text-center" id="course-table">
+            <TableHeader lessons={course.totalLesson} />
             <TableBody
               lessons={lessons}
               entries={entries}

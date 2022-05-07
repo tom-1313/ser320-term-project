@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.course-card {
+  width: 18rem;
+}
+
+.topRight {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  z-index: 2;
+}
+
+.dropdown-toggle::after {
+  content: none;
+}
+
+.table-layout {
+  table-layout: fixed;
+}
+
