@@ -77,7 +77,7 @@ userRouter.get("/:userId/enrolled", async (req, res) => {
     .then((courses) => {
       const courseIds = [];
       courses.forEach((course) => courseIds.push(course.course));
-      Course.find({ _id: { $in: courseIds } }, { name: 1, _id: 0 })
+      Course.find({ _id: { $in: courseIds } })
         .then((c) => res.send(c))
         .catch((err) => res.send(err));
     })
