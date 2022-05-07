@@ -35,6 +35,8 @@ function TableBody(props) {
       }
       tableData.push(<tr key={"tr" + i}>{tds}</tr>);
     }
+
+    props.setTableData(tableData);
     return tableData;
   };
 

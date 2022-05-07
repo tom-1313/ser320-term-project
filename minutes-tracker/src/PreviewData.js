@@ -4,6 +4,7 @@ import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 import { getCourse, getTotalEnrolled } from "./services/userService";
 import Modal from "react-modal";
+const XLSX = require("xlsx");
 
 Modal.setAppElement("#root");
 
@@ -18,17 +19,19 @@ const customStyles = {
   },
 };
 
-function PreviewData() {
+function PreviewData(props) {
   const [entries, setEntries] = useState();
   const [lessons, setLessons] = useState();
   const [display, setDisplay] = useState(false);
   const [students, setStudents] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [course, setCourse] = useState(props.course);
   const [entry, setEntry] = useState({
     study: 0,
     project: 0,
     homework: 0,
   });
+  const [tableData, setTableData] = useState("test");
 
   useEffect(() => {
     //Query for course
@@ -56,23 +59,41 @@ function PreviewData() {
     setIsModalOpen((prev) => !prev);
   }
 
+  function download() {
+    const table = document.getElementById("course-table");
+    const workbook = XLSX.utils.table_to_book(table);
+    const ws = workbook.Sheets["Sheet1"];
+    XLSX.utils.sheet_add_aoa(ws, [["Created " + new Date().toISOString()]], {
+      origin: -1,
+    });
+    XLSX.writeFile(workbook, `${course}-data.xlsx`);
+  }
+
+  //TODO: Change the h1 to the course name
   return (
     <div>
       <Navbar />
       <div className="container text-center">
-        <h1>Preview Data</h1>
-        <h6>Below is each student entry in minutes</h6>
+        <h1>{course}</h1>
+        <h6>
+          Below is each student entry in minutes. The first row is the lesson
+          number.
+        </h6>
         {display && (
-          <table className="table text-center">
+          <table className="table text-center" id="course-table">
             <TableHeader lessons={15} />
             <TableBody
               lessons={lessons}
               entries={entries}
               students={students}
               openModal={openModal}
+              setTableData={setTableData}
             />
           </table>
         )}
+        <button className="btn btn-primary" onClick={download}>
+          Download Data
+        </button>
       </div>
       <Modal isOpen={isModalOpen} style={customStyles}>
         <div className="text-center container">
