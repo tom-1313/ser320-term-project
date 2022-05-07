@@ -4,21 +4,11 @@ import Navbar from "./components/Navbar";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 import { getCourse, getTotalEnrolled } from "./services/userService";
+import { modalStyle} from "./utils";
 import Modal from "react-modal";
 const XLSX = require("xlsx");
 
 Modal.setAppElement("#root");
-
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
 
 function PreviewData(props) {
   const { state: courseInfo } = useLocation();
@@ -45,7 +35,8 @@ function PreviewData(props) {
       })
       .catch((err) => console.log(err));
 
-    getTotalEnrolled("62703e15b8c8a5679410e129")
+    //Get the total number of enrolled students in the course
+    getTotalEnrolled(course._id)
       .then((res) => {
         setStudents(res.data.length);
       })
@@ -72,6 +63,8 @@ function PreviewData(props) {
     XLSX.writeFile(workbook, `${course}-data.xlsx`);
   }
 
+  //TODO: Make each td seem clickable
+
   return (
     <div>
       <Navbar />
@@ -97,7 +90,7 @@ function PreviewData(props) {
           Download Data
         </button>
       </div>
-      <Modal isOpen={isModalOpen} style={customStyles}>
+      <Modal isOpen={isModalOpen} style={modalStyle}>
         <div className="text-center container">
           <table className="table">
             <thead>

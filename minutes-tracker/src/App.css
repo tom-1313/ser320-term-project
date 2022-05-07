@@ -56,3 +56,6 @@
   table-layout: fixed;
 }
 
+.td-highlight {
+  cursor: pointer;
+}

@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import Setting from "./Setting";
 import { Link } from "react-router-dom";
 
-//TODO:
-//add onClicks to buttons to create modals
 function CourseCard(props) {
+  const [course, setCourse] = useState(props.course);
+
+  const updateCourse = (course) => {
+    setCourse(course);
+  }
+
   return (
     <div className="card course-card">
       <div className="card-body">
-        <h2 className="card-title">{props.course.name}</h2>
+        <h2 className="card-title">{course.name}</h2>
+
         {props.isFaculty && (
           <div className="text-center">
-            <Link
-              className="btn btn-primary"
-              to="/preview"
-              state={props.course}
-            >
+            <Link className="btn btn-primary" to="/preview" state={course}>
               Preview Course Data
             </Link>
           </div>
@@ -27,7 +28,14 @@ function CourseCard(props) {
           </div>
         )}
       </div>
-      <Setting />
+
+      {props.isFaculty && (
+        <Setting
+          openModal={props.openModal}
+          course={course}
+          update={updateCourse}
+        />
+      )}
     </div>
   );
 }

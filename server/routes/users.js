@@ -64,9 +64,17 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
     });
 });
 
+//Gets all the users enrolled in course
 userRouter.get("/enrolled/:courseId", async (req, res) => {
   await UserCourse.find({ course: req.params.courseId })
     .then((enrolled) => res.send(enrolled))
+    .catch((err) => res.send(err));
+});
+
+//Gets all the courses a faculty created
+userRouter.get("/:userId/created", async (req, res) => {
+  await Course.find({ faculty: req.params.userId })
+    .then((courses) => res.send(courses))
     .catch((err) => res.send(err));
 });
 

@@ -52,6 +52,15 @@ export function getEnrolled(userId) {
   return http.get(`${apiEndpoint}/${userId}/enrolled`);
 }
 
+/**
+ * Gets all the courses a faculty created
+ *
+ * @param {String} userId The _id of the user
+ * @return {Object} A list of courses the user is enrolled in
+ */
+export function getCreatedCourses(userId) {
+  return http.get(`${apiEndpoint}/${userId}/created`);
+}
 
 /**
  * Gets all the students enrolled in a course
