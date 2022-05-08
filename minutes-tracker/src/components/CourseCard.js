@@ -24,7 +24,7 @@ function CourseCard(props) {
 
         {!props.isFaculty && (
           <div className="text-center">
-            <button className="btn btn-primary">Enter Time</button>
+            <button className="btn btn-primary" onClick={() => props.openModal(course)}>Enter Time</button>
           </div>
         )}
       </div>
