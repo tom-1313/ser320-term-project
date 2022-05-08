@@ -2,37 +2,57 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+body {
+  background: #eee;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.course-card {
+  background: #fff;
+  border-radius: 7px;
+  box-shadow: 0 2px 5px #ccc;
+  padding: 10px;
+  width: 240px;
+  margin: 16px;
+  float: left;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.topRight {
+  position: absolute;
+  right: 2px;
+  top: 2px;
 }
 
-.App-link {
-  color: #61dafb;
+.dropdown-toggle::after {
+  content: none;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.table-layout {
+  table-layout: fixed;
+}
+
+.td-highlight {
+  cursor: pointer;
+}
+
+.nav-color {
+  background-color: #0c2340;
+  margin-bottom: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.logo {
+  padding-right: 5px;
+}
+
+form div button {
+  margin: 5%;
+}
+
+div.confirm-modal {
+  margin: 2%;
+}
+
+div.confirm-modal button {
+  margin: 5px;
 }

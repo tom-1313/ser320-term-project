@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 import { getCourse, getTotalEnrolled } from "./services/userService";
+import { modalStyle} from "./utils";
 import Modal from "react-modal";
+const XLSX = require("xlsx");
 
 Modal.setAppElement("#root");
 
-const customStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-  },
-};
-
-function PreviewData() {
+function PreviewData(props) {
+  const { state: course } = useLocation();
   const [entries, setEntries] = useState();
   const [lessons, setLessons] = useState();
   const [display, setDisplay] = useState(false);
@@ -32,14 +25,15 @@ function PreviewData() {
 
   useEffect(() => {
     //Query for course
-    getCourse("62703e15b8c8a5679410e129")
+    getCourse(course._id)
       .then((res) => {
         setEntries(res.data.entry);
         setLessons(res.data.totalLesson);
       })
       .catch((err) => console.log(err));
 
-    getTotalEnrolled("62703e15b8c8a5679410e129")
+    //Get the total number of enrolled students in the course
+    getTotalEnrolled(course._id)
       .then((res) => {
         setStudents(res.data.length);
       })
@@ -56,15 +50,30 @@ function PreviewData() {
     setIsModalOpen((prev) => !prev);
   }
 
+  function download() {
+    const table = document.getElementById("course-table");
+    const workbook = XLSX.utils.table_to_book(table);
+    const ws = workbook.Sheets["Sheet1"];
+    XLSX.utils.sheet_add_aoa(ws, [["Created " + new Date().toISOString()]], {
+      origin: -1,
+    });
+    XLSX.writeFile(workbook, `${course.name}-data.xlsx`);
+  }
+
+  //TODO: Make each td seem clickable
+
   return (
     <div>
       <Navbar />
       <div className="container text-center">
-        <h1>Preview Data</h1>
-        <h6>Below is each student entry in minutes</h6>
+        <h1>{course.name}</h1>
+        <h6>
+          Below is each student entry in minutes. The first row is the lesson
+          number.
+        </h6>
         {display && (
-          <table className="table text-center">
-            <TableHeader lessons={15} />
+          <table className="table table-layout text-center" id="course-table">
+            <TableHeader lessons={course.totalLesson} />
             <TableBody
               lessons={lessons}
               entries={entries}
@@ -73,8 +82,11 @@ function PreviewData() {
             />
           </table>
         )}
+        <button className="btn btn-primary" onClick={download}>
+          Download Data
+        </button>
       </div>
-      <Modal isOpen={isModalOpen} style={customStyles}>
+      <Modal isOpen={isModalOpen} style={modalStyle}>
         <div className="text-center container">
           <table className="table">
             <thead>
