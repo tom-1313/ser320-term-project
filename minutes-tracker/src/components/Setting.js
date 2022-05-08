@@ -18,7 +18,9 @@ function Setting(props) {
       >
         Edit
       </NavDropdown.Item>
-      <NavDropdown.Item>Delete</NavDropdown.Item>
+      <NavDropdown.Item onClick={() => props.openConfirmModal(props.course._id)}>
+        Delete
+      </NavDropdown.Item>
     </NavDropdown>
   );
 }

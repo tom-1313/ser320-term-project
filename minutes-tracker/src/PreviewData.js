@@ -11,22 +11,19 @@ const XLSX = require("xlsx");
 Modal.setAppElement("#root");
 
 function PreviewData(props) {
-  const { state: courseInfo } = useLocation();
+  const { state: course } = useLocation();
   const [entries, setEntries] = useState();
   const [lessons, setLessons] = useState();
   const [display, setDisplay] = useState(false);
   const [students, setStudents] = useState(0);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [course, setCourse] = useState(courseInfo);
   const [entry, setEntry] = useState({
     study: 0,
     project: 0,
     homework: 0,
   });
-  const [tableData, setTableData] = useState("test");
 
   useEffect(() => {
-    console.log(courseInfo)
     //Query for course
     getCourse(course._id)
       .then((res) => {
@@ -60,7 +57,7 @@ function PreviewData(props) {
     XLSX.utils.sheet_add_aoa(ws, [["Created " + new Date().toISOString()]], {
       origin: -1,
     });
-    XLSX.writeFile(workbook, `${course}-data.xlsx`);
+    XLSX.writeFile(workbook, `${course.name}-data.xlsx`);
   }
 
   //TODO: Make each td seem clickable
@@ -82,7 +79,6 @@ function PreviewData(props) {
               entries={entries}
               students={students}
               openModal={openModal}
-              setTableData={setTableData}
             />
           </table>
         )}

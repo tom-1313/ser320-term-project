@@ -1,36 +1,46 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import qu from '../resources/qu-logo-white.png';
 
-function Navbar() {
-
+function Navbar(props) {
   return (
     <div>
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <nav className="navbar navbar-expand-lg navbar-dark nav-color">
         <img
           src={
-            "https://www.qu.edu/49f5e9/globalassets/global/media/qu/logos/0_home/header-logo.png"
+            qu
           }
           alt="Quinnipiac University"
           width="100"
+          className="logo"
         />
 
-        <div id="navbarSupportedContent" className="ml-auto">
-          <ul className="navbar-nav ml-auto">
+        <div id="navbarSupportedContent" className="collapse navbar-collapse">
+          <ul className="navbar-nav me-auto">
             <li className="nav-item">
               <NavLink className="nav-link" to="/dashboard">
                 Home
               </NavLink>
             </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/createEvent">
-                Create Course
-              </NavLink>
-            </li>
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/login">
-                Logout
-              </NavLink>
-            </li>
+            {props.isFaculty && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/createEvent">
+                  Create Course
+                </NavLink>
+              </li>
+            )}
+            {!props.isFaculty && (
+              <li className="nav-item">
+                <NavLink className="nav-link" to="/enroll">
+                  Enroll in Course
+                </NavLink>
+              </li>
+            )}
+          </ul>
+          <ul className="navbar-nav">
+            <NavLink className="nav-link" to="/login">
+              Logout
+            </NavLink>
           </ul>
         </div>
       </nav>

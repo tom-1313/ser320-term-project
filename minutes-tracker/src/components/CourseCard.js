@@ -17,7 +17,7 @@ function CourseCard(props) {
         {props.isFaculty && (
           <div className="text-center">
             <Link className="btn btn-primary" to="/preview" state={course}>
-              Preview Course Data
+              Preview Data
             </Link>
           </div>
         )}
@@ -32,6 +32,7 @@ function CourseCard(props) {
       {props.isFaculty && (
         <Setting
           openModal={props.openModal}
+          openConfirmModal={props.openConfirmModal}
           course={course}
           update={updateCourse}
         />

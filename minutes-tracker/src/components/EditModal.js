@@ -30,8 +30,8 @@ function EditModal(props) {
   }
 
   return (
-    <div>
-      <form>
+    <div >
+      <form className="modal-style">
         <h4>Editing Course: {course.name}</h4>
         <label htmlFor="course-name">Course name:</label>
         <br />

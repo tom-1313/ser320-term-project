@@ -30,13 +30,13 @@ function TableBody(props) {
         if (entry === undefined) {
           tds.push(<td key={i + " " + j}>{"N/A"}</td>);
         } else {
-          tds.push(<TableData key={i + " " + j} entry={entry} openModal={props.openModal} />);
+          tds.push(<TableData key={i + " " + j} entry={entry} openModal={props.openModal} header={false} />);
         }
       }
       tableData.push(<tr key={"tr" + i}>{tds}</tr>);
     }
 
-    props.setTableData(tableData);
+    // props.setTableData(tableData);
     return tableData;
   };
 
