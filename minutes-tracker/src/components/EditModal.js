@@ -295,7 +295,7 @@ function EditModal(props) {
           </div>
         )}
         <div className="text-center">
-          <button className="btn btn-danger" onClick={(e) => close(e)}>
+          <button className="btn btn-secondary" onClick={(e) => close(e)}>
             Cancel
           </button>
           <button className="btn btn-primary" onClick={(e) => onSubmit(e)}>

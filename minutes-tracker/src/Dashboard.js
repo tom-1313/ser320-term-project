@@ -91,6 +91,7 @@ function Dashboard() {
             course={modalCourse}
             close={closeModal}
             updateCourse={updateCourse}
+            isFaculty={isFaculty}
           />
         </Modal>
         <Modal isOpen={isConfirmOpen} style={modalStyle}>
