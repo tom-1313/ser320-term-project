@@ -32,7 +32,7 @@ function Dashboard() {
       });
     } else {
       //if the user is a student get enrolled courses
-      getEnrolled("622ebfe60472d3469846b2b6").then((res) => {
+      getEnrolled("626ab90c72203966d213eb7f").then((res) => {
         const data = res.data;
         setCourses(data);
       });
@@ -41,7 +41,9 @@ function Dashboard() {
 
   function openModal(course, updateCourse) {
     setModalCourse(course);
-    setUpdateCourse(() => updateCourse);
+    if (updateCourse !== undefined) {
+      setUpdateCourse(() => updateCourse);
+    }
     setIsOpen(true);
   }
 
@@ -69,7 +71,7 @@ function Dashboard() {
 
   return (
     <div className="box">
-      <Navbar isFaculty={true}/>
+      <Navbar isFaculty={true} />
       <div className="container text-center box">
         <h1>Home</h1>
         <p>Below is a list of courses you are currently enrolled in</p>
@@ -93,10 +95,13 @@ function Dashboard() {
         </Modal>
         <Modal isOpen={isConfirmOpen} style={modalStyle}>
           <ConfirmModal
-            heading={
-              "Delete Course"
+            heading={"Delete Course"}
+            description={
+              <p className="text-center text-danger">
+                Warning: Deleting this course will <b>perminately </b>the course
+                data. Are you sure you wish to continue?
+              </p>
             }
-            description={<p className="text-center text-danger">Warning: Deleting this course will <b>perminately </b>the course data. Are you sure you wish to continue?</p>}
             courseId={courseId}
             closeModal={closeModal}
             deleteCourse={deleteCourseData}

@@ -94,7 +94,7 @@ export function getCourseNames() {
 /**
  * Get a course with the given courseId
  *
-* @param {courseId} The _id of the course
+* @param {String} courseId The _id of the course
  * @return {Object} The course with the given courseId
  */
 export function getCourse(courseId) {
@@ -104,8 +104,8 @@ export function getCourse(courseId) {
 /**
  * Updates a course information
  *
- * @param {courseId} The _id of the course
- * @param {data} The updated course information
+ * @param {String} courseId The _id of the course
+ * @param {Object} data The updated course information
  * @return {Object} The updated course information
  */
 export function updateCourse(courseId, data) {
@@ -115,7 +115,7 @@ export function updateCourse(courseId, data) {
 /**
  * Deletes a course from the database
  *
-* @param {courseId} The _id of the course
+* @param {String} courseId The _id of the course
  * @return {Object} The deleted course 
  */
 export function deleteCourse(courseId) {
@@ -125,8 +125,8 @@ export function deleteCourse(courseId) {
 /**
  * Adds an entry to a course
  *
- * @param {courseId} The _id of the course
- * @param {data} The data for the entry
+ * @param {String} courseId The _id of the course
+ * @param {Object} data The data for the entry
  * @return {Object} The updated course
  */
 export function createEntry(courseId, data) {
@@ -136,7 +136,7 @@ export function createEntry(courseId, data) {
 /**
  * Gets all the entries for a course
  *
- * @param {courseId} The _id of the course
+ * @param {String} courseId The _id of the course
  * @return {Object} The entries for a course
  */
 export function getEntry(courseId) {
