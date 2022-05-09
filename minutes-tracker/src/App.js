@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Switch } from "react-router-dom
 import PreviewData from "./PreviewData";
 import Login from "./Login";
 import Dashboard from "./Dashboard";
+import CreateAccount from "./CreateAccount";
 
 //TODO: change home route to propper component
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<h1>Home</h1>} />
         <Route exact path="/login" element={<Login />} />
+        <Route exact path="/createAccount" element={<CreateAccount />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/preview" element={<PreviewData />} />
         <Route exact path="/createEvent" element={<h1>Create an event screen</h1>} />
