@@ -26,7 +26,7 @@ function Dashboard() {
     //TODO: Get the user isFaculty from the token
     if (isFaculty) {
       //if the user is a faculty get the courses created by the facutly
-      getCreatedCourses("622ebfe60472d3469846b2b6").then((res) => {
+      getCreatedCourses("627954188ec7bb5bcee0800c").then((res) => {
         const data = res.data;
         setCourses(data);
       });

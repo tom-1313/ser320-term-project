@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import qu from '../resources/qu-logo-white.png';
 
 function Navbar(props) {
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark nav-color">
@@ -24,7 +25,7 @@ function Navbar(props) {
             </li>
             {props.isFaculty && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/createEvent">
+                <NavLink className="nav-link" to="/createCourse">
                   Create Course
                 </NavLink>
               </li>

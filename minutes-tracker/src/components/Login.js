@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from "react-router-dom";
 
 function Login() {
   return (
@@ -15,12 +16,16 @@ function Login() {
             <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp"/>
             <div id="emailHelp" className="form-text">A Quinnipiac Email is required.</div>
           </div>
-          <div className="mb-3">
+          <div id="password" className="mb-3">
             <label htmlFor="inputPassword" className="form-label">Password</label>
             <input type="password" className="form-control" id="inputPassword"/>
           </div>
           <div className="mb-3">
-            <label href="" class="link-primary">Not an existing user? Create an account!</label>
+            <label href="" className="link-primary">
+              <NavLink className="nav-link" to="/createAccount">
+                Not an existing user? Create an account!
+              </NavLink>
+            </label>
           </div>
           <button type="submit" className="btn btn-dark">Login</button>
       </form>
