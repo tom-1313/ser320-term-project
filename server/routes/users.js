@@ -12,11 +12,7 @@ userRouter.post("/login", passport.authenticate("local"), async (req, res) => {
     .then((user) => {
       const token = Verify.getToken(user);
 
-      return res
-        .status(200)
-        .header("x-access-token", token)
-        .header("access-control-expose-headers", "x-access-token")
-        .json({ message: "Account Created" });
+      return res.status(200).send(token);
     })
     .catch((err) => {
       res.send(err);
