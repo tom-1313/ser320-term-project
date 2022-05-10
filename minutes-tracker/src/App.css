@@ -56,3 +56,97 @@ div.confirm-modal {
 div.confirm-modal button {
   margin: 5px;
 }
+
+/* Login Screen */
+
+#loginScreen {
+  margin: 40px;
+  display: block;
+  justify-content: center;
+}
+
+#j-tron {
+  display: flex;
+  justify-content: center;
+}
+
+#loginForm {
+  margin: 10px;
+  padding: 50px;
+  display: block;
+}
+
+#password {
+  padding-top: 40px;
+}
+
+/* Create Account Screen */
+
+#createAccountScreen {
+  margin: 40px;
+  display: block;
+  justify-content: center;
+}
+
+#j-tron {
+  display: flex;
+  justify-content: center;
+}
+
+#createAccountForm {
+  margin: 10px;
+  padding: 50px;
+  display: block;
+}
+
+#inputContainer {
+  padding-top: 30px;
+}
+
+#linkContainer {
+  padding-bottom: 20px;
+}
+
+#courseLabel {
+  padding-right: 20px;
+}
+
+#courseSelect {
+  max-width: 900px;
+  min-width: 200px;
+  width: 900px
+}
+
+/* Create Course Screen */
+
+#createCourseScreen {
+  margin: 40px;
+  display: block;
+  justify-content: center;
+}
+
+#j-tron {
+  display: flex;
+  justify-content: center;
+}
+
+#createCourseForm {
+  margin: 10px;
+  padding: 50px;
+  display: block;
+}
+
+#numLessons {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+#lessonLabel {
+  padding-right: 20px;
+}
+
+#lessonSelect {
+  max-width: 900px;
+  min-width: 200px;
+  width: 900px
+}
