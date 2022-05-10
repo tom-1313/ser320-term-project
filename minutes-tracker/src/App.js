@@ -8,25 +8,14 @@ import CreateCourse from "./components/CreateCourse";
 
 //TODO: change home route to propper component
 function App() {
-  const state = {
-    account: {
-      email: "",
-      password: "",
-      isFaculty: false
-    },
-
-    course: {
-      courseName: "",
-      numLessons: ""
-    }
-  }
+  
   return (
     <Router>
       <Routes>
         <Route exact path="/" element={<h1>Home</h1>} />
         <Route exact path="/login" element={<Login />} />
-        <Route exact path="/createAccount" element={<CreateAccount account={state.account}/>} />
-        <Route exact path="/createCourse" element={<CreateCourse course={state.course} account={state.account}/>} />
+        <Route exact path="/createAccount" element={<CreateAccount />} />
+        <Route exact path="/createCourse" element={<CreateCourse />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/preview" element={<PreviewData />} />
         <Route exact path="/createEvent" element={<h1>Create an event screen</h1>} />

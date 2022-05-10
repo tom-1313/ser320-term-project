@@ -63,6 +63,15 @@ export function getCreatedCourses(userId) {
 }
 
 /**
+ * Gets all the courses in the database
+ *
+ * @return {Object} A list of courses in the database
+ */
+ export function getAllCourses() {
+  return http.get(`${apiEndpoint}/course`);
+}
+
+/**
  * Gets all the students enrolled in a course
  *
  * @param {String} courseId The _id of the course

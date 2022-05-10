@@ -97,7 +97,24 @@ div.confirm-modal button {
   margin: 10px;
   padding: 50px;
   display: block;
+}
 
+#inputContainer {
+  padding-top: 30px;
+}
+
+#linkContainer {
+  padding-bottom: 20px;
+}
+
+#courseLabel {
+  padding-right: 20px;
+}
+
+#courseSelect {
+  max-width: 900px;
+  min-width: 200px;
+  width: 900px
 }
 
 /* Create Course Screen */
@@ -122,4 +139,14 @@ div.confirm-modal button {
 #numLessons {
   padding-top: 40px;
   padding-bottom: 40px;
+}
+
+#lessonLabel {
+  padding-right: 20px;
+}
+
+#lessonSelect {
+  max-width: 900px;
+  min-width: 200px;
+  width: 900px
 }

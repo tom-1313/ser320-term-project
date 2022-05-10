@@ -1,31 +1,30 @@
 import React, { useState } from "react";
-import { useLocation , useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { createCourse } from "../services/userService";
 import Navbar from "./Navbar";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 
 function CreateCourse() {
     const history = useNavigate();
-    //const { state: course } = useLocation();
     const [course, setCourse] = useState({
             name: "",
             totalLesson: "",
             faculty: "",
             entry: []
     });
-    //const [course, setCourse] = useState(props.course);
-    //const [account, setAccount] = useState(props.account);
 
-    // function handleChange(e) {
-    //     console.log(e.currentTarget.value);
-    //     const { name, value } = e.target;
-    //     setCourse((prev) => {
-    //         return {
-    //           ...prev,
-    //           [name]: value,
-    //         };
-    //     })
-    // };
+    function handleChange(e) {
+        console.log(e.currentTarget.value);
+        const { name, value } = e.target;
+        setCourse((prev) => {
+            return {
+              ...prev,
+              [name]: value,
+            };
+        })
+    };
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -52,13 +51,25 @@ function CreateCourse() {
                 <form id="createCourseForm" onSubmit={handleSubmit}>
                 <div className="mb-2">
                     <label htmlFor="inputCourseName" className="form-label">Course Name</label>
-                    <input type="text" className="form-control" id="inputName" name="courseName" />
+                    <input type="text" className="form-control" id="inputName" name="name" onChange={handleChange} />
                 </div>
                 <div id="numLessons" className="mb-2">
-                    <label htmlFor="inputLessons" className="form-label">Number of Lessons</label>
-                    <input type="number" className="form-control" id="inputLessons" name="numLessons" 
-                    aria-describedby="lessonsHelp"/>
-                    <div id="lessonsHelp" className="form-text">There cannot be more than 60 lessons in a course.</div>
+                    <label id="lessonLabel" htmlFor="inputLessons" className="form-label">Number of Lessons</label>
+                    <Select id="lessonSelect"
+                        labelId="num-lessons"
+                        name="lesson"
+                        value={course.totalLesson}
+                        label="Total Lessons"
+                        onChange={handleChange}
+                        >
+                        {[...Array(40)].map((e, i) => {
+                            return (
+                            <MenuItem key={i} value={i + 1} name="lesson">
+                                {i + 1}
+                            </MenuItem>
+                            );
+                        })}
+                    </Select>
                 </div>
                 <button type="submit" className="btn btn-dark">Create Course</button>
             </form>
