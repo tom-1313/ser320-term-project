@@ -31,7 +31,7 @@ function CreateCourse() {
 
         createCourse(course)
         .then((res) => {
-            //update the state
+            //update the route
             console.log(JSON.stringify(res));
             history("/dashboard");
         })
@@ -57,14 +57,14 @@ function CreateCourse() {
                     <label id="lessonLabel" htmlFor="inputLessons" className="form-label">Number of Lessons</label>
                     <Select id="lessonSelect"
                         labelId="num-lessons"
-                        name="lesson"
+                        name="totalLesson"
                         value={course.totalLesson}
                         label="Total Lessons"
                         onChange={handleChange}
                         >
                         {[...Array(40)].map((e, i) => {
                             return (
-                            <MenuItem key={i} value={i + 1} name="lesson">
+                            <MenuItem key={i} value={i + 1} name="totalLesson">
                                 {i + 1}
                             </MenuItem>
                             );
