@@ -38,7 +38,6 @@ function CreateAccount() {
 
 
     function handleChange(e) {
-      console.log(e.currentTarget.value);
       const { name, value } = e.target;
       setAccount((prev) => {
           return {
@@ -67,13 +66,11 @@ function CreateAccount() {
       selectedCourse.map((selectedCourse) => {
         enroll(id, selectedCourse)
         .then((res) => {
-          console.log(res);
       })
       .catch((err) => console.log(err));
       })
         //update the route
-        console.log(res);
-        history("/dashboard");
+        history("/login");
     })
     .catch((err) => console.log(err));
 };

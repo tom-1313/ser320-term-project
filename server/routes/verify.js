@@ -6,8 +6,8 @@ exports.getToken = (user) => {
   const account = {
     email: user.email,
     isFaculty: user.isFaculty,
-    id: user._id
-  }
+    id: user._id,
+  };
   return jwt.sign(account, process.env.SECRET, { expiresIn: 3600 });
 };
 
@@ -18,6 +18,7 @@ exports.verifyUser = (req, res, next) => {
     req.body.token || req.query.token || req.headers["x-access-token"];
   // decode token
 
+  console.log(token);
   if (token) {
     jwt.verify(token, process.env.SECRET, function (err, decoded) {
       if (err) {
@@ -36,16 +37,16 @@ exports.verifyUser = (req, res, next) => {
     err.status = 403;
     return next(err);
   }
-  console.log("user verified");
 };
 
 exports.verifyFaculty = (req, res, next) => {
-  console.log(req.decoded)
-  if (req.decoded._doc.isFaculty == true) {
-      next();
+  console.log(req.decoded);
+  if (req.decoded.isFaculty === true) {
+    console.log("faculty verified");
+    next();
   } else {
-    const err = new Error("You are not authorized!")
+    const err = new Error("You are not authorized!");
     err.status = 403;
     return next(err);
   }
-}
+};

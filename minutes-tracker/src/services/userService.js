@@ -1,6 +1,7 @@
 import http from "./httpService";
+import { getJwt } from "./authService";
 //import the route
-const apiUrl = "http://localhost:8080/"
+const apiUrl = "http://localhost:8080/";
 const apiEndpoint = apiUrl + "user";
 /**
  * Posts the login data
@@ -12,7 +13,7 @@ export function login(data) {
   return http.post(`${apiEndpoint}/login`, data);
 }
 
-/** TODO: unimplemented
+/**
  * Posts the login data
  *
  * @return {Object} A JWT token
@@ -39,6 +40,7 @@ export function signup(data) {
  * @return {Object} The userId and courseId
  */
 export function enroll(userId, courseId) {
+  http.setJwt(getJwt())
   return http.post(`${apiEndpoint}/${userId}/enroll/${courseId}`);
 }
 
@@ -49,6 +51,7 @@ export function enroll(userId, courseId) {
  * @return {Object} The new course info
  */
 export function enrollMultiple(data) {
+  http.setJwt(getJwt())
   return http.post(`${apiEndpoint}/enroll/multiple`, data);
 }
 
@@ -59,9 +62,9 @@ export function enrollMultiple(data) {
  * @return {Object} A list of courses the user is enrolled in
  */
 export function getEnrolled(userId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/${userId}/enrolled`);
 }
-
 
 /**
  * Gets all the courses a user is currently not enrolled in
@@ -70,6 +73,7 @@ export function getEnrolled(userId) {
  * @return {Object} A list of courses the user is not enrolled in
  */
 export function getNotEnrolled(userId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/${userId}/course/not/enrolled`);
 }
 
@@ -80,6 +84,7 @@ export function getNotEnrolled(userId) {
  * @return {Object} A list of courses the user is enrolled in
  */
 export function getCreatedCourses(userId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/${userId}/created`);
 }
 
@@ -88,7 +93,8 @@ export function getCreatedCourses(userId) {
  *
  * @return {Object} A list of courses in the database
  */
- export function getAllCourses() {
+export function getAllCourses() {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/course`);
 }
 
@@ -99,6 +105,7 @@ export function getCreatedCourses(userId) {
  * @return {Object} A list of students enrolled in a given course
  */
 export function getTotalEnrolled(courseId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/enrolled/${courseId}`);
 }
 
@@ -109,6 +116,7 @@ export function getTotalEnrolled(courseId) {
  * @return {Object} The created course
  */
 export function createCourse(data) {
+  http.setJwt(getJwt())
   return http.post(`${apiEndpoint}/course`, data);
 }
 
@@ -118,16 +126,18 @@ export function createCourse(data) {
  * @return {Object} All course names in the database
  */
 export function getCourseNames() {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/course`);
 }
 
 /**
  * Get a course with the given courseId
  *
-* @param {String} courseId The _id of the course
+ * @param {String} courseId The _id of the course
  * @return {Object} The course with the given courseId
  */
 export function getCourse(courseId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/course/${courseId}`);
 }
 
@@ -139,16 +149,18 @@ export function getCourse(courseId) {
  * @return {Object} The updated course information
  */
 export function updateCourse(courseId, data) {
+  http.setJwt(getJwt())
   return http.put(`${apiEndpoint}/course/${courseId}`, data);
 }
 
 /**
  * Deletes a course from the database
  *
-* @param {String} courseId The _id of the course
- * @return {Object} The deleted course 
+ * @param {String} courseId The _id of the course
+ * @return {Object} The deleted course
  */
 export function deleteCourse(courseId) {
+  http.setJwt(getJwt())
   return http.delete(`${apiEndpoint}/course/${courseId}`);
 }
 
@@ -160,6 +172,7 @@ export function deleteCourse(courseId) {
  * @return {Object} The updated course
  */
 export function createEntry(courseId, data) {
+  http.setJwt(getJwt())
   return http.post(`${apiEndpoint}/course/${courseId}/entry`, data);
 }
 
@@ -170,5 +183,6 @@ export function createEntry(courseId, data) {
  * @return {Object} The entries for a course
  */
 export function getEntry(courseId) {
+  http.setJwt(getJwt())
   return http.get(`${apiEndpoint}/course/${courseId}/entry`);
 }

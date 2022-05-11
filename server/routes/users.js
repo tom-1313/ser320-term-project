@@ -8,7 +8,6 @@ const Verify = require("./verify");
 
 //Authenticates the login information
 userRouter.post("/login", passport.authenticate("local"), async (req, res) => {
-  console.log(res.body);
   await User.findOne({ email: req.body.email })
     .then((user) => {
       const token = Verify.getToken(user);
@@ -47,7 +46,6 @@ userRouter.post("/signup", async (req, res) => {
 });
 
 //Enrolls a user in a course and saves it to the UserCourse collection
-//TODO: add authentication
 userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
   await UserCourse.create({
     user: req.params.userId,
@@ -62,9 +60,7 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
 });
 
 //Enrolls a user in multiple courses and saves it to the UserCourse collection
-//TODO: add authentication
 userRouter.post("/enroll/multiple", async (req, res) => {
-  console.log(res.body);
   const courseIds = req.body.course_ids;
 
   //enroll the user in the courses
@@ -85,23 +81,27 @@ userRouter.post("/enroll/multiple", async (req, res) => {
 });
 
 //Gets the courses the user isn't currently enrolled in
-userRouter.get("/:userId/course/not/enrolled/", async (req, res) => {
-  const courseIds = await UserCourse.find(
-    { user: req.params.userId },
-    { course: 1, _id: 0 }
-  ).then((courses) => {
-    const courseIds = courses.map((course) => course.course);
+userRouter.get(
+  "/:userId/course/not/enrolled/",
+  Verify.verifyUser,
+  async (req, res) => {
+    const courseIds = await UserCourse.find(
+      { user: req.params.userId },
+      { course: 1, _id: 0 }
+    ).then((courses) => {
+      const courseIds = courses.map((course) => course.course);
 
-    Course.find({ _id: { $nin: courseIds } })
-      .then((courses) => {
-        res.send(courses);
-      })
-      .catch((err) => res.send(err));
-  });
-});
+      Course.find({ _id: { $nin: courseIds } })
+        .then((courses) => {
+          res.send(courses);
+        })
+        .catch((err) => res.send(err));
+    });
+  }
+);
 
 //Gets all the users enrolled in course
-userRouter.get("/enrolled/:courseId", async (req, res) => {
+userRouter.get("/enrolled/:courseId", Verify.verifyUser, async (req, res) => {
   await UserCourse.find({ course: req.params.courseId })
     .then((enrolled) => res.send(enrolled))
     .catch((err) => res.send(err));
@@ -115,8 +115,7 @@ userRouter.get("/:userId/created", async (req, res) => {
 });
 
 //Gets all the course names the given user is enrolled in from the UserCourse collection
-//TODO: add authentication
-userRouter.get("/:userId/enrolled", async (req, res) => {
+userRouter.get("/:userId/enrolled", Verify.verifyUser, async (req, res) => {
   await UserCourse.find({ user: req.params.userId }, { course: 1, _id: 0 })
     .then((courses) => {
       const courseIds = [];
@@ -128,12 +127,11 @@ userRouter.get("/:userId/enrolled", async (req, res) => {
     .catch((err) => res.send(err));
 });
 
-//TODO: add authentication
 userRouter
   .route("/course")
 
   //Creates a course
-  .post(async (req, res) => {
+  .post(Verify.verifyUser, Verify.verifyFaculty, async (req, res) => {
     await Course.create(req.body)
       .then((course) => res.send(course))
       .catch((err) => res.send(err));
@@ -146,7 +144,6 @@ userRouter
       .catch((err) => res.send(err));
   });
 
-//TODO: add authentication
 userRouter
   .route("/course/:courseId")
 
@@ -158,7 +155,7 @@ userRouter
   })
 
   //Update a course's information
-  .put(async (req, res) => {
+  .put(Verify.verifyUser, Verify.verifyFaculty, async (req, res) => {
     const filter = req.params.courseId;
     const update = req.body;
     await Course.findByIdAndUpdate(filter, update, { new: true })
@@ -169,23 +166,17 @@ userRouter
   })
 
   //Delete the course with the given courseId from the courses collection
-  .delete(async (req, res) => {
+  .delete(Verify.verifyUser, Verify.verifyFaculty, async (req, res) => {
     await Course.findByIdAndRemove(req.params.courseId)
-      .then((result) =>
-        res
-          .status(200)
-          .send(
-            result +
-              "Course with id " +
-              req.params.courseId +
-              " successfully deleted."
-          )
-      )
+      .then((result) => {
+        UserCourse.remove({ course: req.params.courseId }).then((result) => {
+          res.status(200).send({ message: "Course deleted" });
+        });
+      })
       .catch((err) => res.status(500).send(err));
   });
 
 //Adds an entry to a course under the courses collection
-//TODO: add authentication
 userRouter
   .route("/course/:courseId/entry")
 
@@ -199,7 +190,7 @@ userRouter
       .catch((err) => res.send(err));
   })
 
-  .get(async (req, res) => {
+  .get(Verify.verifyUser, Verify.verifyFaculty, async (req, res) => {
     await Course.findById(req.params.courseId)
       .then((course) => {
         res.send(course.entry);

@@ -5,6 +5,7 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import TextField from "@mui/material/TextField";
 import { updateCourse, createEntry } from "../services/userService.js";
+import { getCurrentUser } from "../services/authService.js";
 
 const resetErrors = {
   lesson: false,
@@ -143,9 +144,8 @@ function EditModal(props) {
       if (i === 5) newEntry.project = minutes;
     }
 
-    //TODO: Change to studentId
     //add studentId
-    newEntry.student = "626ab90c72203966d213eb7f";
+    newEntry.student = getCurrentUser().id;
     return newEntry;
   }
 

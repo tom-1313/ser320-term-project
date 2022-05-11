@@ -28,15 +28,15 @@ function TableBody(props) {
       for (let j = 0; j < course.length; j++) {
         const entry = course[j].pop();
         if (entry === undefined) {
-          tds.push(<td key={i + " " + j}>{"N/A"}</td>);
+          tds.push(<td key={i + " " + j}>{"-"}</td>);
         } else {
-          tds.push(<TableData key={i + " " + j} entry={entry} openModal={props.openModal} header={false} />);
+          tds.push(<TableData key={i + " " + j} entry={entry} header={false} />);
         }
       }
       tableData.push(<tr key={"tr" + i}>{tds}</tr>);
     }
 
-    // props.setTableData(tableData);
+
     return tableData;
   };
 

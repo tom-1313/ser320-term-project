@@ -4,19 +4,28 @@ import qu from "../resources/qu-logo-white.png";
 import Modal from "react-modal";
 import { modalStyle } from "../utils";
 import Enroll from "../Enroll";
+import CreateCourse from "./CreateCourse";
 import { logoutUser } from "../services/authService";
 
 Modal.setAppElement("#root");
 
 function Navbar(props) {
-  const [isOpen, setIsOpen] = useState(false);
+  const [enrollIsOpen, setEnrollIsOpen] = useState(false);
+  const [createIsOpen, setCreateIsOpen] = useState(false);
 
-  function openModal() {
-    setIsOpen(true);
+  function openModal(modal) {
+    if (modal === "enroll") {
+      setEnrollIsOpen(true);
+    }
+    if (modal === "create") {
+      setCreateIsOpen(true);
+
+    }
   }
 
   function closeModal() {
-    setIsOpen(false);
+    setCreateIsOpen(false);
+    setEnrollIsOpen(false);
   }
 
   return (
@@ -38,14 +47,14 @@ function Navbar(props) {
             </li>
             {props.isFaculty && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/createCourse">
+                <a className="nav-link" onClick={() => openModal("create")}>
                   Create Course
-                </NavLink>
+                </a>
               </li>
             )}
             {!props.isFaculty && (
               <li className="nav-item">
-                <a className="nav-link" onClick={openModal}>
+                <a className="nav-link" onClick={() => openModal("enroll")}>
                   Enroll in Course
                 </a>
               </li>
@@ -58,8 +67,11 @@ function Navbar(props) {
           </ul>
         </div>
       </nav>
-      <Modal isOpen={isOpen} style={modalStyle}>
+      <Modal isOpen={enrollIsOpen} style={modalStyle}>
         <Enroll closeModal={closeModal} addCourse={props.addCourse} />
+      </Modal>
+      <Modal isOpen={createIsOpen} style={modalStyle}>
+        <CreateCourse closeModal={closeModal} addCourse={props.addCourse} />
       </Modal>
     </div>
   );

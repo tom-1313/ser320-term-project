@@ -22,7 +22,7 @@ function TableData(props) {
         title={
           <React.Fragment>
             <Typography color="inherit" className="text-center">
-              {props.header ? "Lesson" : "Details"}
+              {props.header ? <strong>Lesson</strong> : <strong>Details</strong>}
             </Typography>
 
             {props.header ? (
@@ -31,8 +31,8 @@ function TableData(props) {
               <table className="table text-center">
                 <thead>
                   <tr>
-                    <td>Activity</td>
-                    <td>Time (minutes)</td>
+                    <td><strong>Activity</strong></td>
+                    <td><strong>Time (minutes)</strong></td>
                   </tr>
                 </thead>
                 <tbody>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
 import { loginUser } from '../services/authService';
+import TextField from "@mui/material/TextField";
 
 function Login() {
   const history = useNavigate();
@@ -40,19 +41,27 @@ function Login() {
     <div className="" id="loginScreen">
       <div id="j-tron" className="jumbotron jumbotron-fluid">
         <div className="container text-center">
-          <h1 className="display-4">Login to an Existing Account.</h1>
+          <h1 className="display-4">Login to an Existing Account</h1>
           <p className="lead">Please input an email and password to login into an existing account.</p>
         </div>
       </div>
-        <form id="loginForm" onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label htmlFor="inputEmail" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" name="email" onChange={handleChange}/>
-            <div id="emailHelp" className="form-text">A Quinnipiac Email is required.</div>
+        <form id="loginForm" className='text-center' onSubmit={handleSubmit}>
+          <div>
+              <TextField
+                label="Quinnipiac Email"
+                name="email"
+                value={account.email}
+                onChange={handleChange}
+              />
           </div>
           <div id="password" className="mb-3">
-            <label htmlFor="inputPassword" className="form-label">Password</label>
-            <input type="password" className="form-control" id="inputPassword" name="password" onChange={handleChange}/>
+              <TextField
+                label="Password"
+                name="password"
+                type="password"
+                value={account.password}
+                onChange={handleChange}
+              />
           </div>
           <div className="mb-3">
             <label href="" className="link-primary">
@@ -61,7 +70,7 @@ function Login() {
               </NavLink>
             </label>
           </div>
-          <button type="submit" className="btn btn-dark">Login</button>
+          <button type="submit" className="btn btn-primary">Login</button>
       </form>
     </div>
   )

@@ -1,29 +1,26 @@
 import "./App.css";
-import { BrowserRouter as Router, Routes, Route, Switch } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 import PreviewData from "./PreviewData";
 import Login from "./components/Login";
 import Dashboard from "./Dashboard";
 import CreateAccount from "./components/CreateAccount";
-import CreateCourse from "./components/CreateCourse";
 import Signup from "./Signup";
-import Enroll from "./Enroll";
 
-
-//TODO: change home route to propper component
 function App() {
-  
   return (
     <Router>
       <Routes>
-        <Route exact path="/" element={<h1>Home</h1>} />
+        <Route exact path="/" element={<Navigate to="/login" />}/>
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/createAccount" element={<CreateAccount />} />
-        <Route exact path="/createCourse" element={<CreateCourse />} />
         <Route exact path="/dashboard" element={<Dashboard />} />
         <Route exact path="/preview" element={<PreviewData />} />
-        <Route exact path="/createEvent" element={<h1>Create an event screen</h1>} />
-        <Route exact path="/enroll" element={<Enroll />} />
       </Routes>
     </Router>
   );

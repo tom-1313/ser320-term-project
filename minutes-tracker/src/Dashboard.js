@@ -28,8 +28,6 @@ function Dashboard() {
     const currentUser = getCurrentUser();
     setUser(currentUser);
     setIsFaculty(currentUser.isFaculty)
-    console.log(currentUser);
-    //TODO: Get the user isFaculty from the token
     if (currentUser.isFaculty) {
       //if the user is a faculty get the courses created by the facutly
       getCreatedCourses(currentUser.id).then((res) => {
@@ -77,7 +75,6 @@ function Dashboard() {
 
   function addCourse(courseId) {
     const newCourses = courses.concat(courseId);
-    console.log(newCourses);
     setCourses(newCourses);
 
   }

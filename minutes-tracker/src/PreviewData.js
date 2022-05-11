@@ -4,7 +4,7 @@ import Navbar from "./components/Navbar";
 import TableHeader from "./components/TableHeader";
 import TableBody from "./components/TableBody";
 import { getCourse, getTotalEnrolled } from "./services/userService";
-import { modalStyle} from "./utils";
+import { modalStyle } from "./utils";
 import Modal from "react-modal";
 const XLSX = require("xlsx");
 
@@ -27,17 +27,18 @@ function PreviewData(props) {
     //Query for course
     getCourse(course._id)
       .then((res) => {
+
         setEntries(res.data.entry);
         setLessons(res.data.totalLesson);
-      })
-      .catch((err) => console.log(err));
 
-    //Get the total number of enrolled students in the course
-    getTotalEnrolled(course._id)
-      .then((res) => {
-        setStudents(res.data.length);
+        //Get the total number of enrolled students in the course
+        getTotalEnrolled(course._id)
+          .then((res) => {
+            setStudents(res.data.length);
+          })
+          .then((res) => setDisplay(true))
+          .catch((err) => console.log(err));
       })
-      .then((res) => setDisplay(true))
       .catch((err) => console.log(err));
   }, []);
 
@@ -60,11 +61,9 @@ function PreviewData(props) {
     XLSX.writeFile(workbook, `${course.name}-data.xlsx`);
   }
 
-  //TODO: Make each td seem clickable
-
   return (
     <div>
-      <Navbar />
+      <Navbar isFaculty={true} />
       <div className="container text-center">
         <h1>{course.name}</h1>
         <h6>
