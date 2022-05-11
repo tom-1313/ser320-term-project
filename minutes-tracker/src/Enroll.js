@@ -13,7 +13,7 @@ import {
   import { modalStyle } from "./utils";
   
 
-function Enroll() {
+function Enroll(props) {
     const history = useNavigate();
     const [selectedCourse, setSelectedCourse] = useState([]);
     const handleSelect = (event) => {
@@ -28,29 +28,41 @@ function Enroll() {
 
   function handleSubmit(e) {
     e.preventDefault();
-
-    enroll(getCurrentUser()._id, selectedCourse._id)
-    .then((res) => {
-        //update the state
-        console.log(JSON.stringify(res));
-        history("/dashboard");
-    })
-    .catch((err) => console.log(err));
+    const user = getCurrentUser();
+    console.log(user);
+    if(selectedCourse.length > 1) {
+        let enrolledCourses = [];
+        selectedCourse.map((selectedCourse) => {
+        enroll(user.id, selectedCourse)
+        .then((res) => {
+          enrolledCourses.push(res.data);
+          console.log(res);
+      })
+      .then((res) => {
+          console.log(enrolledCourses);
+        props.addCourse(enrolledCourses);
+        props.closeModal();
+      })
+      .catch((err) => console.log(err));
+      })
+      
+    }
+    else {
+        let enrolledCourses = [];
+        enroll(user.id, selectedCourse).then((res) => {
+            props.addCourse(res.data);
+            props.closeModal();
+        })
+        
+    }
+        
+   
 };
 
-//   function enrollInCourses() {
-//     selectedCourse.map((selectedCourse) => {
-//         enroll(account._id, selectedCourse._id)
-//         .then((res) => {
-//           console.log(res);
-//       })
-//       .catch((err) => console.log(err));
-//       })
-//   }
+
 
     return (
     <div className="Enroll">
-        <Navbar isFaculty={false} />=
         <div className="text-center jumbotron jumbotron-fluid">
         <h2 id="course-list">Course List</h2>
         </div>
@@ -63,7 +75,8 @@ function Enroll() {
         <DropDown selectedCourse={selectedCourse} handleSelect={handleSelect}/>
       </div>
       <div className="text-center">
-          <Button variant="light" type="submit">Enroll</Button>{' '}
+          <Button variant="primary" type="submit">Enroll</Button>{' '}
+          <Button variant="secondary" type="submit" onClick={props.closeModal}>Cancel</Button>{' '}
       </div>
       </div>
     </form>

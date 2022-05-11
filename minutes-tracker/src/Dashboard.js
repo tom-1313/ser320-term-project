@@ -10,29 +10,35 @@ import {
   deleteCourse,
 } from "./services/userService";
 import { modalStyle } from "./utils";
+import { getCurrentUser } from "./services/authService";
 
 Modal.setAppElement("#root");
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
-  const [isFaculty, setIsFaculty] = useState(false);
+  const [isFaculty, setIsFaculty] = useState();
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [modalCourse, setModalCourse] = useState();
   const [updateCourse, setUpdateCourse] = useState();
   const [courseId, setCourseId] = useState();
+  const [user, setUser] = useState();
 
   useEffect(() => {
+    const currentUser = getCurrentUser();
+    setUser(currentUser);
+    setIsFaculty(currentUser.isFaculty)
+    console.log(currentUser);
     //TODO: Get the user isFaculty from the token
-    if (isFaculty) {
+    if (currentUser.isFaculty) {
       //if the user is a faculty get the courses created by the facutly
-      getCreatedCourses("627954188ec7bb5bcee0800c").then((res) => {
+      getCreatedCourses(currentUser.id).then((res) => {
         const data = res.data;
         setCourses(data);
       });
     } else {
       //if the user is a student get enrolled courses
-      getEnrolled("627b2519fd1161b45e517eb7").then((res) => {
+      getEnrolled(currentUser.id).then((res) => {
         const data = res.data;
         setCourses(data);
       });
@@ -69,9 +75,16 @@ function Dashboard() {
       .catch((err) => console.log(err));
   }
 
+  function addCourse(courseId) {
+    const newCourses = courses.concat(courseId);
+    console.log(newCourses);
+    setCourses(newCourses);
+
+  }
+
   return (
     <div className="box">
-      <Navbar isFaculty={true} />
+      <Navbar isFaculty={isFaculty} addCourse={addCourse}/>
       <div className="container text-center box">
         <h1>Home</h1>
         <p>Below is a list of courses you are currently enrolled in</p>

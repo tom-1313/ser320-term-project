@@ -1,8 +1,22 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
 import qu from '../resources/qu-logo-white.png';
+import Modal from "react-modal";
+import { modalStyle } from "../utils";
+import Enroll from "../Enroll";
+
+Modal.setAppElement("#root");
 
 function Navbar(props) {
+  const [isOpen, setIsOpen] = useState(false);
+
+  function openModal() {
+    setIsOpen(true);
+  }
+
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div>
@@ -32,9 +46,9 @@ function Navbar(props) {
             )}
             {!props.isFaculty && (
               <li className="nav-item">
-                <NavLink className="nav-link" to="/enroll">
+                <a className="nav-link" onClick={openModal}>
                   Enroll in Course
-                </NavLink>
+                </a>
               </li>
             )}
           </ul>
@@ -45,6 +59,9 @@ function Navbar(props) {
           </ul>
         </div>
       </nav>
+      <Modal isOpen={isOpen} style={modalStyle}>
+          <Enroll closeModal={closeModal} addCourse={props.addCourse}/>
+        </Modal>
     </div>
   );
 }
