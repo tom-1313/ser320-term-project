@@ -63,19 +63,19 @@ function CreateAccount() {
 
     signup(account)
     .then((res) => {
+      const id = res.data._id;
+      selectedCourse.map((selectedCourse) => {
+        enroll(id, selectedCourse)
+        .then((res) => {
+          console.log(res);
+      })
+      .catch((err) => console.log(err));
+      })
         //update the route
         console.log(res);
         history("/dashboard");
     })
     .catch((err) => console.log(err));
-
-    selectedCourse.map((selectedCourse) => {
-      enroll(account._id, selectedCourse._id)
-      .then((res) => {
-        console.log(res);
-    })
-    .catch((err) => console.log(err));
-    })
 };
 
   return (

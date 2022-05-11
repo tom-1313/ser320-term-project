@@ -9,16 +9,17 @@ function Login() {
   const [account, setAccount] = useState({
     email: "",
     password: "",
-    isFaculty: false,
   });
+  
 
   function handleSubmit(e) {
     e.preventDefault();
 
+    console.log(account);
     loginUser(account)
     .then((res) => {
         //update the route
-        console.log(res);
+        console.log(JSON.stringify(res));
         history("/dashboard");
     })
     .catch((err) => console.log(err));

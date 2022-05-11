@@ -15,7 +15,7 @@ Modal.setAppElement("#root");
 
 function Dashboard() {
   const [courses, setCourses] = useState([]);
-  const [isFaculty, setIsFaculty] = useState(true);
+  const [isFaculty, setIsFaculty] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const [isConfirmOpen, setIsConfirmOpen] = useState(false);
   const [modalCourse, setModalCourse] = useState();
@@ -32,7 +32,7 @@ function Dashboard() {
       });
     } else {
       //if the user is a student get enrolled courses
-      getEnrolled("626ab90c72203966d213eb7f").then((res) => {
+      getEnrolled("627b2519fd1161b45e517eb7").then((res) => {
         const data = res.data;
         setCourses(data);
       });
