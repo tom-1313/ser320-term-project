@@ -8,6 +8,7 @@ const Verify = require("./verify");
 
 //Authenticates the login information
 userRouter.post("/login", passport.authenticate("local"), async (req, res) => {
+  console.log(res.body);
   await User.findOne({ email: req.body.email })
     .then((user) => {
       const token = Verify.getToken(user);
@@ -39,7 +40,7 @@ userRouter.post("/signup", async (req, res) => {
           .status(200)
           .header("x-access-token", token)
           .header("access-control-expose-headers", "x-access-token")
-          .json({ message: "Account Created" });
+          .send(user);
       });
     })
     .catch((err) => res.send(err));

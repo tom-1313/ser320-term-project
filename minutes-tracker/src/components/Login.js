@@ -1,7 +1,41 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { useNavigate } from "react-router-dom";
 import { NavLink } from "react-router-dom";
+import { loginUser } from '../services/authService';
 
 function Login() {
+  const history = useNavigate();
+
+  const [account, setAccount] = useState({
+    email: "",
+    password: "",
+  });
+  
+
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    console.log(account);
+    loginUser(account)
+    .then((res) => {
+        //update the route
+        console.log(JSON.stringify(res));
+        history("/dashboard");
+    })
+    .catch((err) => console.log(err));
+};
+
+  function handleChange(e) {
+    console.log(e.currentTarget.value);
+    const { name, value } = e.target;
+    setAccount((prev) => {
+        return {
+          ...prev,
+          [name]: value,
+        };
+    })
+};
+
   return (
     <div className="" id="loginScreen">
       <div id="j-tron" className="jumbotron jumbotron-fluid">
@@ -10,15 +44,15 @@ function Login() {
           <p className="lead">Please input an email and password to login into an existing account.</p>
         </div>
       </div>
-        <form id="loginForm">
+        <form id="loginForm" onSubmit={handleSubmit}>
           <div className="mb-3">
             <label htmlFor="inputEmail" className="form-label">Email address</label>
-            <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp"/>
+            <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" name="email" onChange={handleChange}/>
             <div id="emailHelp" className="form-text">A Quinnipiac Email is required.</div>
           </div>
           <div id="password" className="mb-3">
             <label htmlFor="inputPassword" className="form-label">Password</label>
-            <input type="password" className="form-control" id="inputPassword"/>
+            <input type="password" className="form-control" id="inputPassword" name="password" onChange={handleChange}/>
           </div>
           <div className="mb-3">
             <label href="" className="link-primary">

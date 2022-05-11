@@ -4,9 +4,12 @@ import { createCourse } from "../services/userService";
 import Navbar from "./Navbar";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
+import { useTheme } from '@mui/material/styles';
 
 
 function CreateCourse() {
+    const theme = useTheme();
+
     const history = useNavigate();
     const [course, setCourse] = useState({
             name: "",
@@ -15,8 +18,19 @@ function CreateCourse() {
             entry: []
     });
 
+    const ITEM_HEIGHT = 48;
+    const ITEM_PADDING_TOP = 8;
+    const MenuProps = {
+    PaperProps: {
+        style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+        },
+    },
+    };
+
     function handleChange(e) {
-        console.log(e.currentTarget.value);
+        //console.log(e.currentTarget.value);
         const { name, value } = e.target;
         setCourse((prev) => {
             return {
@@ -26,17 +40,28 @@ function CreateCourse() {
         })
     };
 
+    const handleSelect = (event) => {
+        const {
+          target: { value },
+        } = event;
+        setCourse(
+          typeof value === 'string'
+        );
+      };
+
     function handleSubmit(e) {
         e.preventDefault();
 
         createCourse(course)
         .then((res) => {
-            //update the state
+            //update the route
             console.log(JSON.stringify(res));
             history("/dashboard");
         })
         .catch((err) => console.log(err));
     };
+
+    const lessonArray = Array.from({length: 40}, (_, i) => i + 1);    
 
     return (
         <div>
@@ -57,15 +82,16 @@ function CreateCourse() {
                     <label id="lessonLabel" htmlFor="inputLessons" className="form-label">Number of Lessons</label>
                     <Select id="lessonSelect"
                         labelId="num-lessons"
-                        name="lesson"
+                        name="totalLesson"
                         value={course.totalLesson}
                         label="Total Lessons"
                         onChange={handleChange}
+                        MenuProps={MenuProps}
                         >
-                        {[...Array(40)].map((e, i) => {
+                        {lessonArray.map((e, i) => {
                             return (
-                            <MenuItem key={i} value={i + 1} name="lesson">
-                                {i + 1}
+                            <MenuItem key={i} value={e} name="totalLesson">
+                                {e}
                             </MenuItem>
                             );
                         })}

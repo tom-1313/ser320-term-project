@@ -1,14 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from "react-router-dom";
-import { getCreatedCourses } from '../services/userService';
-import Select from "@mui/material/Select";
-import { useTheme } from '@mui/material/styles';
-import OutlinedInput from '@mui/material/OutlinedInput';
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from '@mui/material/FormControl';
-import InputLabel from '@mui/material/InputLabel';
-import { getAllCourses } from '../services/userService';
 import DropDown from './DropDown';
+import { useNavigate } from "react-router-dom";
+import { enroll, signup } from '../services/userService';
+
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -32,6 +27,8 @@ function getStyles(course, selectedCourses, theme) {
 
 //need all courses and allow multiple selections from drop down (enroll in multiple courses)
 function CreateAccount() {
+  const history = useNavigate();
+
   const [account, setAccount] = useState({
     email: "",
     password: "",
@@ -61,6 +58,26 @@ function CreateAccount() {
     );
   };
 
+  function handleSubmit(e) {
+    e.preventDefault();
+
+    signup(account)
+    .then((res) => {
+      const id = res.data._id;
+      selectedCourse.map((selectedCourse) => {
+        enroll(id, selectedCourse)
+        .then((res) => {
+          console.log(res);
+      })
+      .catch((err) => console.log(err));
+      })
+        //update the route
+        console.log(res);
+        history("/dashboard");
+    })
+    .catch((err) => console.log(err));
+};
+
   return (
     <div id="createAccountScreen">
       <div id="j-tron" className="jumbotron jumbotron-fluid">
@@ -69,7 +86,7 @@ function CreateAccount() {
           <p className="lead">Please input and confirm an email and password to create an account.</p>
         </div>
       </div>
-        <form id="createAccountForm">
+        <form id="createAccountForm" onSubmit={handleSubmit}>
           <div id="inputContainer" className="mb-6">
             <label htmlFor="inputEmail" className="form-label">Email address</label>
             <input type="email" className="form-control" id="inputEmail" aria-describedby="emailHelp" name="email" onChange={handleChange}/>
