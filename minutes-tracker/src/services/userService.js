@@ -18,7 +18,7 @@ export function login(data) {
  * @return {Object} A JWT token
  */
 export function logout() {
-  return http.post(`${apiEndpoint}/login`);
+  return http.post(`${apiEndpoint}/logout`);
 }
 
 /**
@@ -43,6 +43,16 @@ export function enroll(userId, courseId) {
 }
 
 /**
+ * Enrolls the user in multiple courses
+ *
+ * @param {Object} data the data of the courses
+ * @return {Object} The new course info
+ */
+export function enrollMultiple(data) {
+  return http.post(`${apiEndpoint}/enroll/multiple`, data);
+}
+
+/**
  * Gets all the course names the given user is enrolled in from the UserCourse collection
  *
  * @param {String} userId The _id of the user
@@ -50,6 +60,17 @@ export function enroll(userId, courseId) {
  */
 export function getEnrolled(userId) {
   return http.get(`${apiEndpoint}/${userId}/enrolled`);
+}
+
+
+/**
+ * Gets all the courses a user is currently not enrolled in
+ *
+ * @param {String} userId The _id of the user
+ * @return {Object} A list of courses the user is not enrolled in
+ */
+export function getNotEnrolled(userId) {
+  return http.get(`${apiEndpoint}/${userId}/course/not/enrolled`);
 }
 
 /**

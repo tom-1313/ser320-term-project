@@ -52,13 +52,52 @@ userRouter.post("/:userId/enroll/:courseId", async (req, res) => {
   await UserCourse.create({
     user: req.params.userId,
     course: req.params.courseId,
+  }).catch((err) => {
+    res.send(err);
+  });
+
+  Course.findById(req.params.courseId)
+    .then((course) => res.send(course))
+    .catch((err) => res.send(err));
+});
+
+//Enrolls a user in multiple courses and saves it to the UserCourse collection
+//TODO: add authentication
+userRouter.post("/enroll/multiple", async (req, res) => {
+  console.log(res.body);
+  const courseIds = req.body.course_ids;
+
+  //enroll the user in the courses
+  await UserCourse.insertMany(req.body.user_course_ids).catch((err) =>
+    res.send(err)
+  );
+
+  //get the course info
+  await Course.find({
+    _id: {
+      $in: courseIds,
+    },
   })
-    .then((userCourse) => {
-      res.send(userCourse);
+    .then((courses) => {
+      res.send(courses);
     })
-    .catch((err) => {
-      res.send(err);
-    });
+    .catch((err) => res.send(err));
+});
+
+//Gets the courses the user isn't currently enrolled in
+userRouter.get("/:userId/course/not/enrolled/", async (req, res) => {
+  const courseIds = await UserCourse.find(
+    { user: req.params.userId },
+    { course: 1, _id: 0 }
+  ).then((courses) => {
+    const courseIds = courses.map((course) => course.course);
+
+    Course.find({ _id: { $nin: courseIds } })
+      .then((courses) => {
+        res.send(courses);
+      })
+      .catch((err) => res.send(err));
+  });
 });
 
 //Gets all the users enrolled in course

@@ -5,7 +5,7 @@ import MenuItem from "@mui/material/MenuItem";
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import { useTheme } from '@mui/material/styles';
-import { getAllCourses } from '../services/userService';
+import { getNotEnrolled, getAllCourses } from '../services/userService';
 
 
 function DropDown(props) {
@@ -33,10 +33,19 @@ function DropDown(props) {
     const [courses, setCourses] = useState([]);
 
     useEffect(() => {
+        if (props.userId === undefined) {
         getAllCourses().then((res) => {
           const data = res.data;
           setCourses(data);
         })
+
+    } else {
+        getNotEnrolled(props.userId).then((res) => {
+          const data = res.data;
+          setCourses(data);
+        })
+
+    }
       });
 
     return (

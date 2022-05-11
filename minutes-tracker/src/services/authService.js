@@ -18,7 +18,6 @@ export function loginWithJwt(jwt) {
 
 export async function logoutUser() {
   const respond = await logout();
-  console.log(respond);
   localStorage.removeItem(tokenKey);
 }
 

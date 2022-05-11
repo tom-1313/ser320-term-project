@@ -1,9 +1,10 @@
 import React, { useState } from "react";
 import { NavLink } from "react-router-dom";
-import qu from '../resources/qu-logo-white.png';
+import qu from "../resources/qu-logo-white.png";
 import Modal from "react-modal";
 import { modalStyle } from "../utils";
 import Enroll from "../Enroll";
+import { logoutUser } from "../services/authService";
 
 Modal.setAppElement("#root");
 
@@ -22,9 +23,7 @@ function Navbar(props) {
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark nav-color">
         <img
-          src={
-            qu
-          }
+          src={qu}
           alt="Quinnipiac University"
           width="100"
           className="logo"
@@ -53,15 +52,15 @@ function Navbar(props) {
             )}
           </ul>
           <ul className="navbar-nav">
-            <NavLink className="nav-link" to="/login">
+            <NavLink className="nav-link" to="/login" onClick={logoutUser}>
               Logout
             </NavLink>
           </ul>
         </div>
       </nav>
       <Modal isOpen={isOpen} style={modalStyle}>
-          <Enroll closeModal={closeModal} addCourse={props.addCourse}/>
-        </Modal>
+        <Enroll closeModal={closeModal} addCourse={props.addCourse} />
+      </Modal>
     </div>
   );
 }

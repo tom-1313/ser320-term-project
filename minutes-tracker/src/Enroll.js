@@ -5,61 +5,56 @@ import Button from 'react-bootstrap/Button';
 import { useNavigate } from "react-router-dom";
 import { getCurrentUser } from './services/authService';
 import {
-    getEnrolled,
-    getCreatedCourses,
-    deleteCourse,
-    enroll
+    enroll,
+    enrollMultiple
   } from "./services/userService";
   import { modalStyle } from "./utils";
+
+const user = getCurrentUser();
   
 
 function Enroll(props) {
     const history = useNavigate();
     const [selectedCourse, setSelectedCourse] = useState([]);
+
     const handleSelect = (event) => {
-    const {
-      target: { value },
-    } = event;
-    setSelectedCourse(
-      // On autofill we get a stringified value.
-      typeof value === 'string' ? value.split(',') : value,
-    );
+        const { target: { value }, } = event;
+        setSelectedCourse(
+          // On autofill we get a stringified value.
+          typeof value === 'string' ? value.split(',') : value,
+        );
   };
+
 
   function handleSubmit(e) {
     e.preventDefault();
-    const user = getCurrentUser();
-    console.log(user);
-    if(selectedCourse.length > 1) {
-        let enrolledCourses = [];
-        selectedCourse.map((selectedCourse) => {
-        enroll(user.id, selectedCourse)
-        .then((res) => {
-          enrolledCourses.push(res.data);
-          console.log(res);
+    if(Array.isArray(selectedCourse)) {
+      let data = {}
+      data.course_ids = selectedCourse;
+      const userAndCourse = selectedCourse.map(course => {
+        return {
+          course: course,
+          user: user.id
+        }
       })
-      .then((res) => {
-          console.log(enrolledCourses);
-        props.addCourse(enrolledCourses);
-        props.closeModal();
+      data.user_course_ids = userAndCourse;
+      console.log(data)
+      console.log("Enrolling in mutliple")
+      enrollMultiple(data).then(res => {
+          console.log("enrolled in multiple courses");
+          console.log(res.data)
+        props.addCourse(res.data);
+        props.closeModal()
       })
-      .catch((err) => console.log(err));
-      })
-      
-    }
-    else {
-        let enrolledCourses = [];
+    } else {
         enroll(user.id, selectedCourse).then((res) => {
+            console.log("enrolled in one course");
+            console.log(res.data)
             props.addCourse(res.data);
             props.closeModal();
         })
-        
     }
-        
-   
 };
-
-
 
     return (
     <div className="Enroll">
@@ -72,7 +67,7 @@ function Enroll(props) {
         <p className="text-center">
           Please select the courses you need to be enrolled in.
         </p>
-        <DropDown selectedCourse={selectedCourse} handleSelect={handleSelect}/>
+        <DropDown selectedCourse={selectedCourse} handleSelect={handleSelect} userId={user.id}/>
       </div>
       <div className="text-center">
           <Button variant="primary" type="submit">Enroll</Button>{' '}
