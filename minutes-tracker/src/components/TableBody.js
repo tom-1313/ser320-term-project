@@ -30,19 +30,18 @@ function TableBody(props) {
         if (entry === undefined) {
           tds.push(<td key={i + " " + j}>{"-"}</td>);
         } else {
-          tds.push(<TableData key={i + " " + j} entry={entry} header={false} />);
+          tds.push(
+            <TableData key={i + " " + j} entry={entry} header={false} />
+          );
         }
       }
       tableData.push(<tr key={"tr" + i}>{tds}</tr>);
     }
 
-
     return tableData;
   };
 
-  return <tbody>
-    {displayTable && table}
-  </tbody>;
+  return <tbody>{displayTable && table}</tbody>;
 }
 
 export default TableBody;

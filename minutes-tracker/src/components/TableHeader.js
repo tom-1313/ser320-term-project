@@ -6,7 +6,11 @@ function TableHeader(props) {
     <thead>
       <tr>
         {[...Array(props.lessons)].map((e, i) => {
-          return <TableData key={i} header={true} lesson={i + 1}>{i + 1}</TableData>;
+          return (
+            <TableData key={i} header={true} lesson={i + 1}>
+              {i + 1}
+            </TableData>
+          );
         })}
       </tr>
     </thead>

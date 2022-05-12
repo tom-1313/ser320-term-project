@@ -16,7 +16,7 @@ function CreateCourse(props) {
 
   const history = useNavigate();
   const [error, setError] = useState({
-    isError: false
+    isError: false,
   });
   const [course, setCourse] = useState({
     name: "",
@@ -57,8 +57,8 @@ function CreateCourse(props) {
     if (course.name === "") {
       setError({
         isError: true,
-        text: "Please enter a course name"
-      })
+        text: "Please enter a course name",
+      });
       return false;
     }
     return true;
@@ -66,7 +66,7 @@ function CreateCourse(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    setError({isError: false})
+    setError({ isError: false });
 
     if (validate()) {
       createCourse(course)
@@ -76,7 +76,6 @@ function CreateCourse(props) {
         })
         .catch((err) => console.log(err));
     }
-
   }
 
   const lessonArray = Array.from({ length: 40 }, (_, i) => i + 1);

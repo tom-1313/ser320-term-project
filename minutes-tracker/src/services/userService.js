@@ -1,7 +1,7 @@
 import http from "./httpService";
 import { getJwt } from "./authService";
 //import the route
-const apiUrl = "http://localhost:8080/";
+const apiUrl = "";
 const apiEndpoint = apiUrl + "user";
 /**
  * Posts the login data

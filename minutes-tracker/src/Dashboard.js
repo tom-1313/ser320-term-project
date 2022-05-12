@@ -27,7 +27,7 @@ function Dashboard() {
   useEffect(() => {
     const currentUser = getCurrentUser();
     setUser(currentUser);
-    setIsFaculty(currentUser.isFaculty)
+    setIsFaculty(currentUser.isFaculty);
     if (currentUser.isFaculty) {
       //if the user is a faculty get the courses created by the facutly
       getCreatedCourses(currentUser.id).then((res) => {
@@ -76,12 +76,11 @@ function Dashboard() {
   function addCourse(courseId) {
     const newCourses = courses.concat(courseId);
     setCourses(newCourses);
-
   }
 
   return (
     <div className="box">
-      <Navbar isFaculty={isFaculty} addCourse={addCourse}/>
+      <Navbar isFaculty={isFaculty} addCourse={addCourse} />
       <div className="container text-center box">
         <h1>Home</h1>
         <p>Below is a list of courses you are currently enrolled in</p>

@@ -27,7 +27,6 @@ function PreviewData(props) {
     //Query for course
     getCourse(course._id)
       .then((res) => {
-
         setEntries(res.data.entry);
         setLessons(res.data.totalLesson);
 

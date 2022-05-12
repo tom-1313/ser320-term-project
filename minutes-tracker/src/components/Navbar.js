@@ -19,7 +19,6 @@ function Navbar(props) {
     }
     if (modal === "create") {
       setCreateIsOpen(true);
-
     }
   }
 
