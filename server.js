@@ -50,11 +50,11 @@ db.on("error", console.error.bind(console, "Connection error: "));
 // Routes
 app.use("/user", userRouter);
 
-// app.get("/*", (req, res) => {
-//   res.sendFile(path.join(__dirname, "public", "index.html"), (err) => {
-//     res.status(500).send(err);
-//   });
-// });
+app.get("/*", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"), (err) => {
+    res.status(500).send(err);
+  });
+});
 
 app.listen(process.env.PORT, () => {
   console.log(`Server started on port ${process.env.PORT}`);
