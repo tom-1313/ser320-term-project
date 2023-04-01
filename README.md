@@ -1,5 +1,7 @@
 # ser320-term-project
 
+This project is version 2 of the original [HTML/CSS project](https://github.com/tom-1313/minutes-tracker). 
+
 # Introduction
 The guide will walk you through on how to clone this repository and get started developing the application. This guide assumes you will be using GitBash for the terminal or your another terminal. 
 
